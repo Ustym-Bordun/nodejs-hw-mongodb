@@ -6,8 +6,11 @@ import { getEnvVar } from './utils/getEnvVar.js';
 import { corsMiddleware } from './middlewares/corsMiddleware.js';
 import { loggerMiddleware } from './middlewares/loggerMiddleware.js';
 
+import routes from './routers/index.js';
+
 import dotenv from 'dotenv';
-import { getContactById, getContacts } from './services/contacts.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 dotenv.config();
 
 const PORT = getEnvVar('PORT', 8080);
@@ -15,16 +18,8 @@ const PORT = getEnvVar('PORT', 8080);
 export const setupServer = () => {
   const app = express();
 
-  // app.use(cors());
   app.use(corsMiddleware);
 
-  // app.use(
-  //   pino({
-  //     transport: {
-  //       target: 'pino-pretty',
-  //     },
-  //   }),
-  // );
   app.use(loggerMiddleware);
 
   // Тестовий маршрут
@@ -33,40 +28,11 @@ export const setupServer = () => {
   //   res.send('Привіт!');
   // });
 
-  app.get('/contacts', async (req, res) => {
-    const contacts = await getContacts();
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully found contacts!',
-      data: contacts,
-    });
-  });
+  app.use(routes);
 
-  app.get('/contacts/:contactId', async (req, res) => {
-    const { contactId } = req.params;
-    const contact = await getContactById(contactId);
+  app.use(notFoundHandler);
 
-    if (!contact) {
-      return res.status(404).send({ message: 'Contact not found' });
-    }
-
-    res.status(200).json({
-      status: 200,
-      message: `Successfully found contact with id ${contactId}!`,
-      data: contact,
-    });
-  });
-
-  app.use((req, res, next) => {
-    res.status(404).send({ message: 'Not found' });
-  });
-
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
-    });
-  });
+  app.use(errorHandler);
 
   app.listen(PORT, (err) => {
     if (err) {

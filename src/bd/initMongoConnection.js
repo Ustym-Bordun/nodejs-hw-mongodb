@@ -13,6 +13,7 @@ export const initMongoConnection = async () => {
     );
     console.log('Mongo connection successfully established!');
   } catch (err) {
-    console.log(`Error while setting up Mongo conection${err}`);
+    // console.log(`Error while setting up Mongo conection${err}`);
+    throw new Error(`Error while setting up Mongo conection${err}`);
   }
 };
