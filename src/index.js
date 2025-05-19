@@ -2,13 +2,13 @@ import { initMongoConnection } from './bd/initMongoConnection.js';
 import { setupServer } from './server.js';
 
 const bootstrap = async () => {
-  // try {
-  initMongoConnection();
+  try {
+    initMongoConnection();
 
-  setupServer();
-  // } catch (error) {
-  //   console.log(error);
-  // }
+    setupServer();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 bootstrap();
