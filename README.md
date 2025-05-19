@@ -1,5 +1,3 @@
-# Node.js MongoDB Homework - HW2
-
 # Node.js MongoDB CRUD API - HW3
 
 This project is the third homework assignment for the Node.js course. It implements a full-featured REST API for managing a collection of contacts using MongoDB as the database.
