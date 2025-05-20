@@ -3,7 +3,7 @@ import { setupServer } from './server.js';
 
 const bootstrap = async () => {
   try {
-    initMongoConnection();
+    await initMongoConnection();
 
     setupServer();
   } catch (error) {

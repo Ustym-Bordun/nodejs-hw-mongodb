@@ -31,9 +31,9 @@ export const updateContact = async (contactId, payload, options = {}) => {
   // {
   //   value: { /* оновлений документ */ },
   //   lastErrorObject: {
-  //     updatedExisting: true,         // чи документ вже існував
-  //     n: 1,                          // кількість змінених документів
-  //     upserted: ObjectId('...'),     // є, якщо був створений новий документ через upsert
+  //     updatedExisting: true,       // чи документ вже існував
+  //     n: 1,                        // кількість змінених документів
+  //     upserted: ObjectId('...'),   // є, якщо був створений новий документ через upsert
   //   },
   //   ok: 1
   // }

@@ -69,12 +69,23 @@ export const upsertContactController = async (req, res, next) => {
     return;
   }
 
-  const status = result.isNew ? 201 : 200;
+  const { contact, isNew } = result;
+  const status = isNew ? 201 : 200;
+  const message = isNew
+    ? `Successfully created a contact!`
+    : `Successfully updated a contact!`;
+
+  // console.log('');
+  // console.log(contact);
+  // console.log(isNew);
+  // console.log('');
 
   res.status(status).json({
     status,
-    message: `Successfully upserted a contact!`,
-    data: result.contact,
+    // message: `Successfully upserted a contact!`,
+    message,
+    isNew: isNew,
+    data: contact,
   });
 };
 
@@ -87,9 +98,13 @@ export const patchContactController = async (req, res, next) => {
     return;
   }
 
+  // console.log('');
+  // console.log(result.contact);
+  // console.log('');
+
   res.json({
     status: 200,
     message: `Successfully patched a contact!`,
-    data: result.student,
+    data: result.contact,
   });
 };
