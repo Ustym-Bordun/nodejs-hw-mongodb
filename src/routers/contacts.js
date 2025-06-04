@@ -36,16 +36,16 @@ router.post(
 
 router.put(
   '/:contactId',
-  jsonParser,
   isValidId,
+  jsonParser,
   validateBody(createContactSchema),
   ctrlWrapper(upsertContactController),
 );
 
 router.patch(
   '/:contactId',
-  jsonParser,
   isValidId,
+  jsonParser,
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
 );

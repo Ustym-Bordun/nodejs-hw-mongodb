@@ -44,6 +44,7 @@ export const getContacts = async ({
   // const currentPage = pageNeedAdjustment ? totalPages : page;
 
   // const skip = (currentPage - 1) * perPage;
+  // const skip = page > 0 ? (page - 1) * perPage : 0;
 
   // const contacts = await contactsQuery
   //   .skip(skip)
@@ -66,7 +67,8 @@ export const getContacts = async ({
   // * 2 Варіант Promise.all
   // Два незалежні запити виконуються одночасно, що пришвидшує відповідь
 
-  const skip = (page - 1) * perPage;
+  // const skip = (page - 1) * perPage;
+  const skip = page > 0 ? (page - 1) * perPage : 0;
 
   const [contactsCount, contacts] = await Promise.all([
     ContactsCollection.find().merge(contactsQuery).countDocuments(),

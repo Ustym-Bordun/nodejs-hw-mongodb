@@ -13,7 +13,7 @@ export const isValidId = (req, res, next) => {
       `Requested contact id: '${contactId}' is not a mongoose ObjectId`,
     );
 
-    next(error);
+    return next(error);
   }
 
   next();
