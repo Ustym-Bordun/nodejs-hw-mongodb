@@ -29,4 +29,4 @@ This project is the fourth homework assignment for the Node.js course. It extend
 
 ## Deployment:
 
-The application is deployed on [Render](qwe) using the hw4-validation branch. Ensure that all environment variables are configured correctly.
+The application is deployed on [Render](https://nodejs-hw-mongodb-contacts-app-gdzi.onrender.com/contacts) using the hw4-validation branch. Ensure that all environment variables are configured correctly.
