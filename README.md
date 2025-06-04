@@ -1,15 +1,20 @@
-# Node.js MongoDB CRUD API - HW3
+# Node.js MongoDB CRUD API - (hw4-validation)
 
-This project is the third homework assignment for the Node.js course. It implements a full-featured REST API for managing a collection of contacts using MongoDB as the database.
+This project is the fourth homework assignment for the Node.js course. It extends the previous CRUD API by adding data validation, pagination, sorting, and optional filtering features to efficiently manage the contact collection.
 
-## 🚀 Features:
+## 🚀 Main Features:
 
-- Create a new contact
-- Retrieve a list of all contacts
-- Retrieve a single contact by ID
-- Update an existing contact
-- Delete a contact
-- Error handling middleware
+- Data Validation
+  - Centralized middleware for validating request bodies using Joi.
+  - Schema-level constraints for string fields (min 3, max 20 characters).
+  - Middleware to check the validity of MongoDB ObjectIds.
+- Pagination
+  - Implemented via page and perPage query parameters.
+  - Response includes metadata such as total items, pages, and pagination status.
+- Sorting
+  - Support for sorting contacts by name via sortBy and sortOrder query parameters.
+- Filtering
+  - Ability to filter contacts by type and isFavourite if implemented.
 
 ## 🛠️ Technologies:
 
@@ -21,3 +26,7 @@ This project is the third homework assignment for the Node.js course. It impleme
 - morgan — HTTP request logger
 - Joi — Input data validation
 - Nodemon — Auto-restarts server during development
+
+## Deployment:
+
+The application is deployed on [Render](qwe) using the hw4-validation branch. Ensure that all environment variables are configured correctly.

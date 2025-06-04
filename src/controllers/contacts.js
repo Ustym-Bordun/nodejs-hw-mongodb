@@ -8,8 +8,25 @@ import {
   updateContact,
 } from '../services/contacts.js';
 
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
+
 export const getContactsController = async (req, res) => {
-  const contacts = await getContacts();
+  const { page, perPage } = parsePaginationParams(req.query);
+
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+
+  const filter = parseFilterParams(req.query);
+
+  const contacts = await getContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  });
+
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
@@ -23,7 +40,7 @@ export const getContactByIdController = async (req, res, next) => {
 
   if (!contact) {
     throw createHttpError.NotFound('Contact not found');
-    // throw  createHttpError(404, 'Contact not found');
+    // throw createHttpError(404, 'Contact not found');
 
     // next(createHttpError(404, 'Contact not found'));
     // return;
@@ -50,6 +67,7 @@ export const deleteContactController = async (req, res, next) => {
   const { contactId } = req.params;
 
   const contact = await deleteContact(contactId);
+  // const contact = await deleteContact(req.params.contactId);
 
   if (!contact) {
     next(createHttpError(404, 'Contact not found'));
@@ -84,7 +102,7 @@ export const upsertContactController = async (req, res, next) => {
     status,
     // message: `Successfully upserted a contact!`,
     message,
-    isNew: isNew,
+    isNew,
     data: contact,
   });
 };

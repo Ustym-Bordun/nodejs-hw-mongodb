@@ -1,12 +1,92 @@
+// import createHttpError from 'http-errors';
 import { ContactsCollection } from '../bd/models/contact.js';
 
-export const getContacts = () => {
-  const contacts = ContactsCollection.find();
-  return contacts;
+import { calculatePaginationData } from '../utils/calculatePaginationData.js';
+
+import { SORT_ORDER } from '../constants/index.js';
+
+export const getContacts = async ({
+  page = 1,
+  perPage = 10,
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = 'name',
+  filter = {},
+}) => {
+  const limit = perPage;
+
+  const contactsQuery = ContactsCollection.find();
+
+  const { type, isFavourite } = filter;
+  if (type) {
+    contactsQuery.where('contactType').equals(type);
+  }
+  if (typeof isFavourite === 'boolean') {
+    contactsQuery.where('isFavourite').equals(isFavourite);
+  }
+
+  // * 1 Варіант з currentPage
+  // для того щоб при запиті на сторінку (наприклад) 5 при тому
+  // коли їх є менше ніж 5 віддавалася остання сторінка на якій є дані
+
+  // const contactsCount = await ContactsCollection.find()
+  //   .merge(contactsQuery)
+  //   .countDocuments();
+
+  // const totalPages = Math.ceil(contactsCount / perPage);
+  // // if (page > totalPages && totalPages > 0) {
+  // //   // Якщо запитувана сторінка перевищує кількість існуючих
+  // //   throw createHttpError(
+  // //     404,
+  // //     `Page ${page} not found. Total pages: ${totalPages}`,
+  // //   );
+  // // }
+  // const pageNeedAdjustment = page > totalPages;
+  // const currentPage = pageNeedAdjustment ? totalPages : page;
+
+  // const skip = (currentPage - 1) * perPage;
+
+  // const contacts = await contactsQuery
+  //   .skip(skip)
+  //   .limit(limit)
+  //   .sort({ [sortBy]: sortOrder })
+  //   .exec();
+
+  // const paginationData = calculatePaginationData(
+  //   contactsCount,
+  //   perPage,
+  //   currentPage,
+  // );
+
+  // return {
+  //   data: contacts,
+  //   ...paginationData,
+  //   adjusted: pageNeedAdjustment,
+  // };
+
+  // * 2 Варіант Promise.all
+  // Два незалежні запити виконуються одночасно, що пришвидшує відповідь
+
+  const skip = (page - 1) * perPage;
+
+  const [contactsCount, contacts] = await Promise.all([
+    ContactsCollection.find().merge(contactsQuery).countDocuments(),
+    contactsQuery
+      .skip(skip)
+      .limit(limit)
+      .sort({ [sortBy]: sortOrder })
+      .exec(),
+  ]);
+
+  const paginationData = calculatePaginationData(contactsCount, perPage, page);
+
+  return {
+    data: contacts,
+    ...paginationData,
+  };
 };
 
-export const getContactById = (contactId) => {
-  const contact = ContactsCollection.findOne({ _id: contactId });
+export const getContactById = async (contactId) => {
+  const contact = await ContactsCollection.findOne({ _id: contactId });
   return contact;
 };
 
@@ -43,5 +123,6 @@ export const updateContact = async (contactId, payload, options = {}) => {
   return {
     contact: rawResult.value,
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+    // isNew: Boolean(!rawResult?.lastErrorObject?.updatedExisting),
   };
 };
