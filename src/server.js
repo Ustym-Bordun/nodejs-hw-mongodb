@@ -8,9 +8,11 @@ import { loggerMiddleware } from './middlewares/loggerMiddleware.js';
 
 import routes from './routers/index.js';
 
-import dotenv from 'dotenv';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
+
+import dotenv from 'dotenv';
+
 dotenv.config();
 
 const PORT = getEnvVar('PORT', 8080);

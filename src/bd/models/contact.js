@@ -18,6 +18,12 @@ const contactSchema = new Schema(
       default: 'personal',
       required: true,
     },
+    userId: {
+      // нова властивість
+      type: Schema.Types.ObjectId,
+      // ref: 'users',
+      required: true,
+    },
   },
   {
     timestamps: true,
