@@ -58,9 +58,4 @@ In this assignment, we build a secure contacts management app with full support 
 
 ## 🌍 Live Demo:
 
-Deployed on Render:
-👉 https://your-render-url.com (replace with your real link)
-
-/////
-
-The application is deployed on [Render](https://nodejs-hw-mongodb-contacts-app-gdzi.onrender.com/contacts) using the hw4-validation branch.
+The application is deployed on [Render](https://nodejs-hw-mongodb-contacts-app-gdzi.onrender.com/contacts) using the hw5-auth branch.
