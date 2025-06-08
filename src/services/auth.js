@@ -4,8 +4,8 @@ import createHttpError from 'http-errors';
 
 import { FIFTEEN_MINUTES, THiRTY_DAYS } from '../constants/index.js';
 
-import { UsersCollection } from '../bd/models/user.js';
-import { SessionsCollection } from '../bd/models/session.js';
+import { UsersCollection } from '../db/models/user.js';
+import { SessionsCollection } from '../db/models/session.js';
 
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
