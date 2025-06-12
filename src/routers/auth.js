@@ -54,14 +54,14 @@ router.post(
 );
 
 router.post(
-  '/request-reset-password',
+  '/send-reset-email',
   jsonParser,
   validateBody(requestResetPasswordSchema),
   ctrlWrapper(requestResetPasswordController),
 );
 
 router.post(
-  '/reset-password',
+  '/reset-pwd',
   jsonParser,
   cookieParserMiddleware,
   validateBody(resetPasswordSchema),
