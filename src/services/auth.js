@@ -148,19 +148,6 @@ export const requestResetPassword = async (email) => {
     link: `${getEnvVar('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
 
-  // console.log(resetPasswordTemplatePath);
-  // console.log(templateSource);
-  // console.log(template);
-  // console.log(html);
-
-  // await sendMail({
-  //   from: getEnvVar(SMTP.SMTP_FROM),
-  //   to: email,
-  //   subject: 'Reset your password',
-  //   html: template({
-  //     link: `http://localhost:3000/reset-password/?token=${resetToken}`,
-  //   }),
-  // });
   try {
     await sendMail({
       from: getEnvVar(SMTP.SMTP_FROM),

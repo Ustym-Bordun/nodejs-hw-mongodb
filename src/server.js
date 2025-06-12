@@ -8,7 +8,7 @@ import express from 'express';
 import { getEnvVar } from './utils/getEnvVar.js';
 
 import { corsMiddleware } from './middlewares/corsMiddleware.js';
-// import { loggerMiddleware } from './middlewares/loggerMiddleware.js';
+import { loggerMiddleware } from './middlewares/loggerMiddleware.js';
 
 import routes from './routers/index.js';
 
@@ -22,7 +22,7 @@ export const setupServer = () => {
 
   app.use(corsMiddleware);
 
-  // app.use(loggerMiddleware);
+  app.use(loggerMiddleware);
 
   // Тестовий маршрут
   // app.get('/hello', (req, res) => {
