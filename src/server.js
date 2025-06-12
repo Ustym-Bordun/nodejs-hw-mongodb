@@ -1,19 +1,19 @@
+import 'dotenv/config';
+// import dotenv from 'dotenv';
+// dotenv.config();
+
 import express from 'express';
 // import cors from 'cors';
 // import pino from 'pino-http';
 import { getEnvVar } from './utils/getEnvVar.js';
 
 import { corsMiddleware } from './middlewares/corsMiddleware.js';
-import { loggerMiddleware } from './middlewares/loggerMiddleware.js';
+// import { loggerMiddleware } from './middlewares/loggerMiddleware.js';
 
 import routes from './routers/index.js';
 
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
-
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const PORT = getEnvVar('PORT', 8080);
 
@@ -22,7 +22,7 @@ export const setupServer = () => {
 
   app.use(corsMiddleware);
 
-  app.use(loggerMiddleware);
+  // app.use(loggerMiddleware);
 
   // Тестовий маршрут
   // app.get('/hello', (req, res) => {

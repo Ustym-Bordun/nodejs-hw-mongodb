@@ -6,10 +6,17 @@ import {
   logoutUserController,
   refreshUserSessionController,
   registerUserController,
+  requestResetPasswordController,
+  resetPasswordController,
 } from '../controllers/auth.js';
 
 import { validateBody } from '../middlewares/validateBody.js';
-import { loginUserSchema, registerUserSchema } from '../validation/auth.js';
+import {
+  loginUserSchema,
+  registerUserSchema,
+  requestResetPasswordSchema,
+  resetPasswordSchema,
+} from '../validation/auth.js';
 import cookieParser from 'cookie-parser';
 
 const router = Router();
@@ -44,6 +51,21 @@ router.post(
   // jsonParser,
   cookieParserMiddleware,
   ctrlWrapper(refreshUserSessionController),
+);
+
+router.post(
+  '/request-reset-password',
+  jsonParser,
+  validateBody(requestResetPasswordSchema),
+  ctrlWrapper(requestResetPasswordController),
+);
+
+router.post(
+  '/reset-password',
+  jsonParser,
+  cookieParserMiddleware,
+  validateBody(resetPasswordSchema),
+  ctrlWrapper(resetPasswordController),
 );
 
 export default router;
