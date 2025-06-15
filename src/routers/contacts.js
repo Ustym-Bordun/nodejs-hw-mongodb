@@ -18,21 +18,34 @@ import {
 
 import { isValidId } from '../middlewares/isValidId.js';
 
+import { upload } from '../middlewares/multer.js';
+
+// * Перенесений в індекс раути
 // import { authenticate } from '../middlewares/authenticate.js';
 
 const router = Router();
 const jsonParser = json();
 
+// * Перенесений в індекс раути
 // router.use(authenticate);
 
 router.get('/', ctrlWrapper(getContactsController));
 
-router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
+router.get(
+  '/:contactId',
+  isValidId,
+  ctrlWrapper(getContactByIdController),
+);
 
-router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
+router.delete(
+  '/:contactId',
+  isValidId,
+  ctrlWrapper(deleteContactController),
+);
 
 router.post(
   '/',
+  upload.single('photo'),
   jsonParser,
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
@@ -40,6 +53,7 @@ router.post(
 
 router.put(
   '/:contactId',
+  upload.single('photo'),
   isValidId,
   jsonParser,
   validateBody(createContactSchema),
@@ -48,6 +62,7 @@ router.put(
 
 router.patch(
   '/:contactId',
+  upload.single('photo'),
   isValidId,
   jsonParser,
   validateBody(updateContactSchema),

@@ -24,6 +24,11 @@ const contactSchema = new Schema(
       // ref: 'users',
       required: true,
     },
+    photo: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   {
     timestamps: true,
@@ -31,4 +36,5 @@ const contactSchema = new Schema(
   },
 );
 
-export const ContactsCollection = model('Contact', contactSchema); // collection name: contacts
+export const ContactsCollection = model('Contact', contactSchema);
+// collection name: contacts
