@@ -1,23 +1,26 @@
-### Node.js MongoDB Contacts API - (hw5-auth)
+# Node.js MongoDB Contacts API - (hw6-email-and-images)
 
-This project is the fifth homework assignment for the Node.js course.
-It extends the previous contact management API by adding user registration, authentication, and authorization.
-The app now supports secure access to resources using encrypted passwords, token-based sessions, and access control logic based on the authenticated user.
+This project is the sixth homework assignment for the Node.js course.
+It builds upon the previous authenticated contact management API by adding password recovery via email and user avatar image uploading.
+
+The app now supports not only secure user sessions and contact isolation, but also password reset through email and profile personalization with avatars.
 
 ## 🔐 About
 
-In this assignment, we build a secure contacts management app with full support for user identity and session handling. Users can register, log in, refresh sessions, and log out, while all contacts are isolated per user. Access is granted only to the authenticated owner's data.
+In this assignment, we extend the secure contacts management app with the ability to recover a forgotten password via email and upload a user avatar.
+Users can request a password reset link sent to their email address and securely change their password. Authenticated users can also upload or update their avatar image.
 
 ## 🚀 Main Features:
 
 - ✅ User registration (POST /auth/register)
-- 🔐 User login with token-based session (POST /auth/login)
+- 🔐 User login with JWT session tokens (POST /auth/login)
 - 🔁 Token refresh using refresh token in cookies (POST /auth/refresh)
 - 🚪 Logout and session removal (POST /auth/logout)
+- 🔁 Password recovery via email link (POST /auth/forgot-password → PATCH /auth/reset-password)
 - 🛡️ Middleware to authenticate requests (authenticate)
 - 👤 User-specific contacts: each contact is owned by a user
-- 👤 User-specific contacts: each contact is owned by a user
-- 📄 Contacts CRUD (Create, Read, Update, Delete) with authentication
+- 🖼️ Avatar support: users can upload avatar images and access them via public URL
+- 📄 Contacts CRUD with access limited to the authenticated user's data
 
 ## 📦 Technologies Used:
 
@@ -25,37 +28,90 @@ In this assignment, we build a secure contacts management app with full support 
 - Express.js - Web application framework
 - MongoDB + Mongoose - NoSQL database and ODM
 - bcrypt - Password hashing
-- jsonwebtoken - JWT token creation and verification
-- cookie-parser - Handle cookies
+- jsonwebtoken - Access/refresh token handling
+- cookie-parser - Cookie support
 - dotenv - Manage environment variables
 - Joi - Schema-based input validation
-- morgan - HTTP request logger
+- pino-http and pino-pretty - HTTP request logger
+- Nodemailer - Sending emails (SMTP)
+- Multer - Upload and process images
 - Nodemon - Auto-restarts server during development
 
-## 🛠 API Structure:
+## 🧭 API Routes Overview:
 
-- Auth Routes (/auth)
-- - POST /register - Register a new user
-- - POST /login - Authenticate user and issue tokens
-- - POST /refresh - Refresh access token using refresh token in cookies
-- - POST /logout - End session and remove token
+### 🔐 Auth Routes (/auth)
 
-- Contacts Routes (/contacts)
-- - GET /contacts - Get all contacts for the logged-in user
-- - POST /contacts - Create a new contact (authenticated)
-- - GET /contacts/:id - Get contact by ID (only if owned by user)
-- - PATCH /contacts/:id - Update contact (only if owned by user)
-- - DELETE /contacts/:id - Delete contact (only if owned by user)
-    All contacts are protected by authentication middleware.
+- POST /register - Register a new user
+- POST /login - Authenticate user and issue tokens
+- POST /refresh - Refresh access token using refresh token from cookies
+- POST /logout - End session and clear refresh token
+- POST /send-reset-email - Send password reset link to user's email
+- POST /reset-pwd - Set a new password using the reset token
 
-## 🔐 Security Highlights:
+All /auth routes are public and don't require authentication.
 
-- Passwords are securely hashed before saving.
-- Only authenticated users can access or modify their own contacts.
-- Access tokens expire in 15 minutes.
-- Refresh tokens expire in 30 days and are stored securely in HTTP-only cookies.
-- Users can't access or modify others' data.
+### 📇 Contacts Routes (/contacts) (protected by authenticate middleware)
+
+- GET / - Get all contacts for the authenticated user
+- GET /:contactId - Get a specific contact by ID (owned by user)
+- POST / - Create a new contact (supports photo upload)
+- PUT /:contactId - Replace contact data completely (upsert)
+- PATCH /:contactId - Partially update contact fields
+- DELETE /:contactId - Delete a contact
+
+All contact routes are user-specific and require authentication.
+
+### 🖼️ Avatar Access
+
+Uploaded avatars are publicly accessible via URLs like:
+
+- GET /uploads/avatars/ - 'filename' -
+
+Example: https://your-domain.com/uploads/avatars/avatar123.jpg
+
+## 🔒 Security & Access:
+
+- ✔️ Passwords are securely hashed before saving.
+- ✔️ Only authenticated users can access or modify their own contacts.
+- ✔️ Users can't access or modify others' data.
+- ✔️ Access and refresh tokens used for session control
+- ✔️ Tokens have proper expiration (5 min / 30 days)
+- ✔️ Refresh tokens stored in HTTP-only cookies
+- ✔️ Password can be reset via a secure token sent to the user's email
+<!-- - ✔️ Image files validated and resized before saving -->
 
 ## 🌍 Live Demo:
 
-The application is deployed on [Render](https://nodejs-hw-mongodb-contacts-app-gdzi.onrender.com/contacts) using the hw5-auth branch.
+The project is deployed on Render:
+
+👉 [Live API](https://nodejs-hw-mongodb-contacts-app-gdzi.onrender.com)
+
+<h2 style="display: flex; align-items: center; padding-left: 4px;">
+    <img
+      src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+      alt="GitHub"
+      width="20"
+      height="20"
+      style="border-radius: 50%;"
+    />
+    <p style="padding-left: 8px; margin: 0;">
+      GitHub Repository:
+    </p>
+</h2>
+
+📁 Branch: hw6-email-and-images
+
+🔗 [GitHub Repo](https://github.com/Ustym-Bordun/nodejs-hw-mongodb/tree/hw6-email-and-images)
+
+<!-- <div style="display: flex; gap: 6px; padding-bottom: 10px; border-bottom: 1px solid rgb(75, 75, 75);">
+    <img
+      src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+      alt="GitHub"
+      width="24"
+      height="24"
+      style="border-radius: 50%;"
+    />
+    <a href="https://github.com/Ustym-Bordun/nodejs-hw-mongodb/tree/hw6-email-and-images">
+      GitHub Repository
+    </a>
+</div> -->
