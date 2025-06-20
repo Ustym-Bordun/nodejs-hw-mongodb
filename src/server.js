@@ -17,6 +17,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 
 // import { AVATARS_DIR } from './constants/index.js';
 import path from 'node:path';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 const PORT = getEnvVar('PORT', 8080);
 
@@ -37,6 +38,8 @@ export const setupServer = () => {
     '/uploads/avatars',
     express.static(path.resolve('uploads', 'avatars')),
   );
+
+  app.use('/api-docs', swaggerDocs());
 
   app.use(routes);
 

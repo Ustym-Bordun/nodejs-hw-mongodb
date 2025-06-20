@@ -101,7 +101,6 @@ export const getContactById = async (payload) => {
 };
 
 export const createContact = async (payload) => {
-  // console.log(payload);
   const student = await ContactsCollection.create(payload);
   return student;
 };
