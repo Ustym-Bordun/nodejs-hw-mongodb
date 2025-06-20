@@ -28,7 +28,7 @@
     }
   ],
   "paths": {
-    "/students": {
+    "/contacts": {
       "get": {
         "tags": [
           "Contacts"
@@ -103,7 +103,7 @@
         }
       }
     },
-    "/students/{id}": {
+    "/contacts/{id}": {
       "get": {
         "tags": [
           "Contacts"
@@ -239,7 +239,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Deletes a contact"
           },
           "400": {
