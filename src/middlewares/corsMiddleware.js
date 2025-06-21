@@ -7,6 +7,7 @@ const allowedOrigins = [
   `http://localhost:${PORT}`,
   `http://localhost:3000`,
   `http://localhost:8080`,
+  `https://nodejs-hw-mongodb-contacts-app-gdzi.onrender.com`,
 ];
 
 export const corsMiddleware = cors({
@@ -18,5 +19,6 @@ export const corsMiddleware = cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
+  // origin: true,
   optionsSuccessStatus: 200,
 });
